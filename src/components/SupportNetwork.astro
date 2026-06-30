@@ -1,32 +1,92 @@
 ---
 const supportItems = [
-	['Bienestar universitario', 'Espacio institucional para orientación, programas de promoción y acompañamiento.', '[xdxd]'],
-	['Orientación psicológica', 'Canal para solicitar apoyo cuando la carga emocional o académica sea difícil de manejar.', '[Agregar correo institucional]'],
-	['Docentes y consejeros académicos', 'Personas que pueden orientar sobre rutas académicas, entregas, procesos y alternativas.', '[Agregar contacto o dependencia]'],
-	['Representantes estudiantiles', 'Vocería para compartir inquietudes colectivas y conocer canales de participación.', '[Agregar enlace o nombre de representación]'],
-	['Amigos y familiares', 'Red cercana para conversar, pedir apoyo práctico y no atravesar la presión en soledad.', '[Agregar recomendación interna]'],
-	['Líneas de atención', 'Rutas externas o institucionales que deben verificarse con fuentes oficiales.', '[Agregar número de contacto]'],
+	{
+		title: 'Bienestar universitario',
+		text: 'Espacio institucional para orientación, programas de promoción y acompañamiento.',
+		label: 'Consultar Bienestar Institucional',
+		href: 'https://bienestar.udistrital.edu.co/',
+		external: true,
+	},
+	{
+		title: 'Orientación psicológica',
+		text: 'Canal para solicitar apoyo cuando la carga emocional o académica sea difícil de manejar.',
+		label: 'Consultar orientación psicológica',
+		href: 'https://bienestar.udistrital.edu.co/servicios/desarrollo-humano-y-salud',
+		external: false,
+	},
+	{
+		title: 'Docentes y consejeros académicos',
+		text: 'Personas que pueden orientar sobre rutas académicas, entregas, procesos y alternativas.',
+		label: 'Consultar consejería académica',
+		href: 'https://ftecnologica.udistrital.edu.co/tecsistematizaciondatos/index.php/programa/equipo-de-trabajo/docentes',
+		external: false,
+	},
+	{
+		title: 'Representantes estudiantiles',
+		text: 'Vocería para compartir inquietudes colectivas y conocer canales de participación.',
+		label: 'Conocer representantes',
+		href: 'https://ftecnologica.udistrital.edu.co/tecsistematizaciondatos/index.php/programa/equipo-de-trabajo/representantes',
+		external: false,
+	},
+	{
+		title: 'Amigos y familiares',
+		text: 'Red cercana para conversar, pedir apoyo práctico y no atravesar la presión en soledad.',
+		label: 'Ver recomendaciones',
+		external: false,
+	},
+	{
+		title: 'Líneas de atención',
+		text: 'Rutas externas o institucionales que deben verificarse con fuentes oficiales.',
+		label: 'Consultar líneas de atención',
+		external: false,
+	},
 ];
 ---
 
-<section id="apoyo" class="section section-tint" aria-labelledby="support-title">
+<section
+	id="apoyo"
+	class="section section-tint"
+	aria-labelledby="support-title"
+>
 	<div class="container">
 		<div class="section-heading reveal">
 			<p class="eyebrow">Red de apoyo</p>
-			<h2 id="support-title">Pedir ayuda también es una estrategia de bienestar</h2>
-			<p>Estos datos están marcados para edición. Agrega únicamente canales oficiales confirmados por la Universidad Distrital.</p>
+
+			<h2 id="support-title">
+				Pedir ayuda también es una estrategia de bienestar
+			</h2>
+
+			<p>
+				Consulta los canales institucionales y redes de acompañamiento
+				disponibles.
+			</p>
 		</div>
+
 		<div class="card-grid">
-			{supportItems.map(([title, text, placeholder]) => (
-				<article class="support-card reveal">
-					<h3>{title}</h3>
-					<p>{text}</p>
-					<span>{placeholder}</span>
-				</article>
-			))}
+			{
+				supportItems.map(({ title, text, label, href, external }) => (
+					<a target="_blank"
+						class="support-card reveal"
+						href={href}
+						rel={external ? 'noopener noreferrer' : undefined}
+						aria-label={`${title}: ${label}`}
+					>
+						<h3>{title}</h3>
+						<p>{text}</p>
+
+						<span class="support-link">
+							{label}
+							<span aria-hidden="true"> →</span>
+						</span>
+					</a>
+				))
+			}
 		</div>
+
 		<div class="center reveal">
-			<a class="button button-primary" href="#apoyo">Consultar rutas de apoyo</a>
+			<a class="button button-primary" href="#apoyo">
+				Consultar rutas de apoyo
+			</a>
 		</div>
 	</div>
 </section>
