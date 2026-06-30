@@ -1,0 +1,63 @@
+<section class="section section-compact" aria-labelledby="pomodoro-title">
+	<div class="container pomodoro-wrap">
+		<div class="section-heading reveal">
+			<p class="eyebrow">Herramienta rápida</p>
+			<h2 id="pomodoro-title">Temporizador Pomodoro</h2>
+			<p>Usa bloques de 25 minutos de estudio y 5 minutos de descanso para empezar con claridad.</p>
+		</div>
+		<div class="timer-card reveal">
+			<p class="timer-mode">Modo actual: <strong id="timer-mode">Estudio</strong></p>
+			<div class="timer-display" id="timer-display" aria-live="polite">25:00</div>
+			<div class="button-row center">
+				<button class="button button-primary" id="timer-start" type="button">Iniciar</button>
+				<button class="button button-secondary" id="timer-pause" type="button">Pausar</button>
+				<button class="button button-ghost" id="timer-reset" type="button">Reiniciar</button>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	const display = document.querySelector<HTMLElement>('#timer-display');
+	const modeLabel = document.querySelector<HTMLElement>('#timer-mode');
+	const startButton = document.querySelector<HTMLButtonElement>('#timer-start');
+	const pauseButton = document.querySelector<HTMLButtonElement>('#timer-pause');
+	const resetButton = document.querySelector<HTMLButtonElement>('#timer-reset');
+	const durations = { study: 25 * 60, rest: 5 * 60 };
+	let mode: 'study' | 'rest' = 'study';
+	let remaining = durations.study;
+	let intervalId: number | undefined;
+
+	const renderTimer = () => {
+		if (!display || !modeLabel) return;
+		const minutes = Math.floor(remaining / 60).toString().padStart(2, '0');
+		const seconds = (remaining % 60).toString().padStart(2, '0');
+		display.textContent = `${minutes}:${seconds}`;
+		modeLabel.textContent = mode === 'study' ? 'Estudio' : 'Descanso';
+	};
+
+	const stopTimer = () => {
+		if (intervalId) window.clearInterval(intervalId);
+		intervalId = undefined;
+	};
+
+	startButton?.addEventListener('click', () => {
+		if (intervalId) return;
+		intervalId = window.setInterval(() => {
+			remaining -= 1;
+			if (remaining <= 0) {
+				mode = mode === 'study' ? 'rest' : 'study';
+				remaining = durations[mode];
+			}
+			renderTimer();
+		}, 1000);
+	});
+
+	pauseButton?.addEventListener('click', stopTimer);
+	resetButton?.addEventListener('click', () => {
+		stopTimer();
+		mode = 'study';
+		remaining = durations.study;
+		renderTimer();
+	});
+</script>

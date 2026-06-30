@@ -1,0 +1,94 @@
+---
+const fields = [
+	{ id: 'classes', label: 'Horas de clase por semana', max: 80 },
+	{ id: 'work', label: 'Horas de trabajo por semana', max: 80 },
+	{ id: 'study', label: 'Horas de estudio independiente', max: 80 },
+	{ id: 'transport', label: 'Horas de transporte por semana', max: 60 },
+	{ id: 'sleep', label: 'Horas de sueño por día', max: 14 },
+	{ id: 'personal', label: 'Horas para actividades personales', max: 80 },
+];
+---
+
+<section id="organizacion" class="section section-tint" aria-labelledby="planner-title">
+	<div class="container tool-grid">
+		<div class="section-heading reveal">
+			<p class="eyebrow">Organización</p>
+			<h2 id="planner-title">Organizador semanal interactivo</h2>
+			<p>
+				Calcula de manera aproximada cómo se distribuyen tus 168 horas semanales entre estudio,
+				trabajo, desplazamientos, descanso y actividades personales.
+			</p>
+		</div>
+		<form class="tool-card reveal" id="weekly-planner" novalidate>
+			<div class="form-grid">
+				{fields.map((field) => (
+					<label class="field" for={field.id}>
+						<span>{field.label}</span>
+						<input id={field.id} name={field.id} type="number" min="0" max={field.max} step="0.5" inputmode="decimal" required />
+					</label>
+				))}
+			</div>
+			<button class="button button-primary" type="submit">Calcular mi semana</button>
+			<p class="tool-note">El cálculo es orientativo y no reemplaza una asesoría académica o profesional.</p>
+			<div class="result-box" id="planner-result" aria-live="polite" role="status">
+				Ingresa tus datos para ver una orientación inicial.
+			</div>
+		</form>
+	</div>
+</section>
+
+<script>
+	const planner = document.querySelector<HTMLFormElement>('#weekly-planner');
+	const plannerResult = document.querySelector<HTMLElement>('#planner-result');
+	const maxValues: Record<string, number> = {
+		classes: 80,
+		work: 80,
+		study: 80,
+		transport: 60,
+		sleep: 14,
+		personal: 80,
+	};
+
+	planner?.addEventListener('submit', (event) => {
+		event.preventDefault();
+		if (!plannerResult) return;
+
+		const data = new FormData(planner);
+		const entries = [...data.entries()];
+		const missing = entries.some(([, value]) => String(value).trim() === '');
+		const values = Object.fromEntries(entries.map(([key, value]) => [key, Number(value)]));
+		const invalid = Object.entries(values).find(([key, value]) => value < 0 || value > maxValues[key]);
+
+		if (missing) {
+			plannerResult.textContent = 'Completa todos los campos para calcular tu semana.';
+			plannerResult.dataset.state = 'warning';
+			return;
+		}
+
+		if (invalid) {
+			plannerResult.textContent = 'Revisa los valores: no deben ser negativos ni superar rangos razonables.';
+			plannerResult.dataset.state = 'warning';
+			return;
+		}
+
+		const weeklySleep = values.sleep * 7;
+		const occupied = values.classes + values.work + values.study + values.transport + weeklySleep + values.personal;
+		const available = 168 - occupied;
+		let message = 'Tu distribución parece equilibrada.';
+
+		if (occupied > 168) {
+			message = 'La suma supera las 168 horas de la semana. Revisa los datos ingresados.';
+			plannerResult.dataset.state = 'warning';
+		} else if (available < 14) {
+			message = 'Tu semana tiene una carga elevada. Considera revisar tus prioridades y reservar espacios de descanso.';
+			plannerResult.dataset.state = 'caution';
+		} else if (available > 45) {
+			message = 'Aún tienes tiempo disponible que puedes distribuir entre descanso, actividad física o actividades personales.';
+			plannerResult.dataset.state = 'balanced';
+		} else {
+			plannerResult.dataset.state = 'balanced';
+		}
+
+		plannerResult.innerHTML = `<strong>Total ocupado:</strong> ${occupied.toFixed(1)} horas. <strong>Horas disponibles:</strong> ${available.toFixed(1)}. ${message}`;
+	});
+</script>

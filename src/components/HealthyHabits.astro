@@ -1,0 +1,27 @@
+---
+const habits = [
+	['Sueño y descanso', 'Procura definir una hora aproximada para dormir y otra para levantarte. Puede ayudarte bajar el ritmo antes de acostarte y evitar estudiar hasta el último minuto todos los días.'],
+	['Alimentación', 'Considera planear comidas sencillas para no depender solo de lo que aparezca entre clases. Llevar agua y algún alimento práctico puede ayudarte en jornadas largas.'],
+	['Actividad física y pausas', 'Puede ayudarte moverte algunos minutos entre bloques de estudio, caminar parte del trayecto o hacer pausas activas cuando pases mucho tiempo sentado.'],
+	['Uso responsable de pantallas', 'Procura separar espacios de estudio y descanso digital. Silenciar notificaciones durante bloques de concentración puede reducir interrupciones.'],
+];
+---
+
+<section id="habitos" class="section section-tint" aria-labelledby="habits-title">
+	<div class="container">
+		<div class="section-heading reveal">
+			<p class="eyebrow">Hábitos saludables</p>
+			<h2 id="habits-title">Pequeñas decisiones que sostienen la semana</h2>
+			<p>Estas recomendaciones son generales. Busca orientación profesional cuando una dificultad afecte tu vida cotidiana o persista en el tiempo.</p>
+		</div>
+		<div class="card-grid">
+			{habits.map(([title, text]) => (
+				<article class="habit-card reveal">
+					<div class="habit-icon" aria-hidden="true"></div>
+					<h3>{title}</h3>
+					<p>{text}</p>
+				</article>
+			))}
+		</div>
+	</div>
+</section>

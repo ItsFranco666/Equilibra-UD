@@ -1,0 +1,30 @@
+---
+const year = new Date().getFullYear();
+const links = [
+	['Inicio', '#inicio'],
+	['Organización', '#organizacion'],
+	['Técnicas de estudio', '#tecnicas'],
+	['Hábitos saludables', '#habitos'],
+	['Estrés académico', '#estres'],
+	['Red de apoyo', '#apoyo'],
+];
+---
+
+<footer class="site-footer">
+	<div class="container footer-grid">
+		<div>
+			<h2>Equilibra UD</h2>
+			<p>Bienestar, organización y hábitos saludables para la vida universitaria.</p>
+			<p class="footer-note">Proyecto académico desarrollado para la Universidad Distrital.</p>
+		</div>
+		<nav aria-label="Enlaces del pie de página">
+			<ul>
+				{links.map(([label, href]) => <li><a href={href}>{label}</a></li>)}
+			</ul>
+		</nav>
+		<div>
+			<p>Aviso de contenido educativo: la información publicada es preventiva y orientativa. No presenta diagnósticos médicos ni reemplaza acompañamiento profesional.</p>
+			<p>&copy; {year} Equilibra UD.</p>
+		</div>
+	</div>
+</footer>

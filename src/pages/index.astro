@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CallToAction from '../components/CallToAction.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import HealthyHabits from '../components/HealthyHabits.astro';
+import Hero from '../components/Hero.astro';
+import PomodoroTimer from '../components/PomodoroTimer.astro';
+import ProblemSection from '../components/ProblemSection.astro';
+import StressQuestionnaire from '../components/StressQuestionnaire.astro';
+import StudyTechniques from '../components/StudyTechniques.astro';
+import SupportNetwork from '../components/SupportNetwork.astro';
+import WeeklyPlanner from '../components/WeeklyPlanner.astro';
+---
+
+<BaseLayout
+	title="Equilibra UD | Bienestar universitario"
+	description="Plataforma educativa para bienestar, organización, hábitos saludables, técnicas de estudio y redes de apoyo en la vida universitaria."
+>
+	<Header />
+	<main>
+		<Hero />
+		<ProblemSection />
+		<WeeklyPlanner />
+		<StudyTechniques />
+		<PomodoroTimer />
+		<HealthyHabits />
+		<StressQuestionnaire />
+		<SupportNetwork />
+		<CallToAction />
+	</main>
+	<Footer />
+</BaseLayout>

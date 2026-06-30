@@ -1,0 +1,66 @@
+---
+const questions = [
+	'¿Sientes que todas tus responsabilidades son urgentes?',
+	'¿Duermes menos de lo que necesitas por estudiar?',
+	'¿Te cuesta desconectarte de las actividades académicas?',
+	'¿Has dejado de realizar actividades que antes disfrutabas?',
+	'¿Sientes agotamiento constante durante la semana?',
+	'¿Te cuesta concentrarte incluso después de descansar?',
+];
+---
+
+<section id="estres" class="section" aria-labelledby="stress-title">
+	<div class="container tool-grid">
+		<div class="section-heading reveal">
+			<p class="eyebrow">Estrés académico</p>
+			<h2 id="stress-title">Cuestionario orientativo de carga percibida</h2>
+			<p>
+				Responde con honestidad para recibir una orientación general. No se almacenan respuestas ni
+				se envía información a servidores.
+			</p>
+			<p class="alert-text">Este cuestionario es únicamente orientativo y no sustituye una valoración psicológica o médica.</p>
+		</div>
+		<form class="tool-card reveal" id="stress-form">
+			{questions.map((question, index) => (
+				<fieldset class="question">
+					<legend>{question}</legend>
+					<label><input type="radio" name={`q${index}`} value="yes" required /> Sí</label>
+					<label><input type="radio" name={`q${index}`} value="no" required /> No</label>
+				</fieldset>
+			))}
+			<button class="button button-primary" type="submit">Ver orientación</button>
+			<div class="result-box" id="stress-result" aria-live="polite" role="status">
+				Completa el cuestionario para ver un mensaje orientativo.
+			</div>
+		</form>
+	</div>
+</section>
+
+<script>
+	const stressForm = document.querySelector<HTMLFormElement>('#stress-form');
+	const stressResult = document.querySelector<HTMLElement>('#stress-result');
+
+	stressForm?.addEventListener('submit', (event) => {
+		event.preventDefault();
+		if (!stressResult) return;
+
+		const data = new FormData(stressForm);
+		if ([...data.keys()].length < 6) {
+			stressResult.textContent = 'Responde todas las preguntas para recibir la orientación.';
+			stressResult.dataset.state = 'warning';
+			return;
+		}
+
+		const affirmative = [...data.values()].filter((value) => value === 'yes').length;
+		if (affirmative <= 2) {
+			stressResult.textContent = 'Tu nivel de carga percibida parece manejable. Mantén tus hábitos de organización y descanso.';
+			stressResult.dataset.state = 'balanced';
+		} else if (affirmative <= 4) {
+			stressResult.textContent = 'Estás presentando varias señales de sobrecarga. Considera reorganizar tus actividades y hablar con una persona de confianza.';
+			stressResult.dataset.state = 'caution';
+		} else {
+			stressResult.textContent = 'Tus respuestas reflejan una carga importante. Considera acudir a los servicios de bienestar universitario o buscar orientación profesional.';
+			stressResult.dataset.state = 'warning';
+		}
+	});
+</script>

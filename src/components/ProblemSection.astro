@@ -1,0 +1,31 @@
+---
+const items = [
+	['Sobrecarga académica', 'Varias materias, entregas y lecturas pueden acumularse si no se revisan con anticipación.'],
+	['Falta de sueño', 'Dormir poco de forma frecuente puede afectar la energía, la atención y el ánimo durante la semana.'],
+	['Organización del tiempo', 'Cuando todo queda en la memoria, es más difícil distinguir entre lo urgente y lo importante.'],
+	['Entregas y evaluaciones', 'Las fechas cercanas suelen aumentar la presión si no existen bloques de preparación.'],
+	['Pocas pausas personales', 'Los espacios para moverse, comer con calma o compartir también hacen parte del rendimiento sostenible.'],
+];
+---
+
+<section class="section problem-section" aria-labelledby="problematica-title">
+	<div class="container">
+		<div class="section-heading reveal">
+			<p class="eyebrow">Punto de partida</p>
+			<h2 id="problematica-title">La vida universitaria puede sentirse abrumadora</h2>
+			<p>
+				Estas situaciones son comunes en la experiencia académica. Reconocerlas ayuda a tomar
+				decisiones más conscientes sin convertir el bienestar en otra tarea imposible.
+			</p>
+		</div>
+		<div class="problem-grid">
+			{items.map(([title, text], index) => (
+				<article class="info-card reveal">
+					<span class="number-pill">{String(index + 1).padStart(2, '0')}</span>
+					<h3>{title}</h3>
+					<p>{text}</p>
+				</article>
+			))}
+		</div>
+	</div>
+</section>

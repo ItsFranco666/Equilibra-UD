@@ -1,0 +1,62 @@
+---
+const techniques = [
+	{ name: 'Técnica Pomodoro', category: 'Organización', description: 'Alterna periodos cortos de concentración con descansos breves.', when: 'Cuando necesitas iniciar una tarea o evitar distracciones.', example: 'Estudia 25 minutos, descansa 5 y repite el ciclo.' },
+	{ name: 'Recuperación activa', category: 'Memorización', description: 'Consiste en intentar recordar la información sin mirar los apuntes.', when: 'Después de leer o asistir a clase.', example: 'Cierra el cuaderno y escribe tres ideas clave del tema.' },
+	{ name: 'Repetición espaciada', category: 'Memorización', description: 'Revisa contenidos en diferentes momentos para reforzar el recuerdo.', when: 'Para parciales acumulativos o materias con muchos conceptos.', example: 'Repasa hoy, en tres días y la semana siguiente.' },
+	{ name: 'Método Feynman', category: 'Comprensión', description: 'Explica un concepto con palabras simples para detectar vacíos.', when: 'Cuando un tema parece claro, pero cuesta aplicarlo.', example: 'Explica una fórmula como si se la contaras a alguien de primer semestre.' },
+	{ name: 'Mapas conceptuales', category: 'Comprensión', description: 'Organiza relaciones entre ideas, causas, procesos o autores.', when: 'Para temas extensos con muchas conexiones.', example: 'Ubica el concepto central y conecta definiciones, ejemplos y preguntas.' },
+	{ name: 'Bloques de tiempo', category: 'Organización', description: 'Reserva franjas concretas para tareas específicas antes de empezar la semana.', when: 'Cuando tienes varias entregas o compromisos simultáneos.', example: 'Agenda dos bloques de lectura, uno de escritura y uno de revisión.' },
+];
+
+const categories = ['Todas', 'Memorización', 'Organización', 'Comprensión'];
+---
+
+<section id="tecnicas" class="section" aria-labelledby="techniques-title">
+	<div class="container">
+		<div class="section-heading reveal">
+			<p class="eyebrow">Técnicas de estudio</p>
+			<h2 id="techniques-title">Elige una estrategia según tu objetivo</h2>
+			<p>Cada técnica funciona mejor cuando se usa con intención: comprender, memorizar u organizar.</p>
+		</div>
+		<div class="filter-bar reveal" role="group" aria-label="Filtrar técnicas por categoría">
+			{categories.map((category) => (
+				<button class="filter-button" type="button" data-filter={category} aria-pressed={category === 'Todas' ? 'true' : 'false'}>{category}</button>
+			))}
+		</div>
+		<div class="card-grid" id="technique-grid">
+			{techniques.map((technique) => (
+				<article class="technique-card reveal" data-category={technique.category}>
+					<span class="tag">{technique.category}</span>
+					<h3>{technique.name}</h3>
+					<p>{technique.description}</p>
+					<dl>
+						<div>
+							<dt>Cuándo utilizarla</dt>
+							<dd>{technique.when}</dd>
+						</div>
+						<div>
+							<dt>Ejemplo práctico</dt>
+							<dd>{technique.example}</dd>
+						</div>
+					</dl>
+				</article>
+			))}
+		</div>
+	</div>
+</section>
+
+<script>
+	const filterButtons = document.querySelectorAll<HTMLButtonElement>('.filter-button');
+	const techniqueCards = document.querySelectorAll<HTMLElement>('.technique-card');
+
+	filterButtons.forEach((button) => {
+		button.addEventListener('click', () => {
+			const selected = button.dataset.filter ?? 'Todas';
+			filterButtons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+			techniqueCards.forEach((card) => {
+				const isVisible = selected === 'Todas' || card.dataset.category === selected;
+				card.hidden = !isVisible;
+			});
+		});
+	});
+</script>
